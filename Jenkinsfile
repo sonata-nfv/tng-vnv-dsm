@@ -24,6 +24,7 @@ pipeline {
         }
         stage('Running Unit Tests') {
           steps {
+			echo 'Performing Unit Tests'
            }
         }
       }
