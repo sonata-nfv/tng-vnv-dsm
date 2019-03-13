@@ -53,7 +53,7 @@ pipeline {
       }
       stage('Deploying') {
         steps {
-		  docker push registry.sonata-nfv.eu:5000/tng-vnv-dsm:latest
+		  sh 'docker push registry.sonata-nfv.eu:5000/tng-vnv-dsm:latest'
           sh 'rm -rf tng-devops || true'
           sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
           dir(path: 'tng-devops') {
