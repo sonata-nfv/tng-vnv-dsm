@@ -77,8 +77,8 @@ pipeline {
          }
         stage('tng-cat') {
 		    steps {
-				docker tag registry.sonata-nfv.eu:5000/tng-vnv-dsm:latest registry.sonata-nfv.eu:5000/tng-vnv-dsm:int
-				docker push registry.sonata-nfv.eu:5000/tng-vnv-dsm:int
+				sh 'docker tag registry.sonata-nfv.eu:5000/tng-vnv-dsm:latest registry.sonata-nfv.eu:5000/tng-vnv-dsm:int'
+				sh 'docker push registry.sonata-nfv.eu:5000/tng-vnv-dsm:int'
 				sh 'rm -rf tng-devops || true'
 				sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
 				dir(path: 'tng-devops') {
