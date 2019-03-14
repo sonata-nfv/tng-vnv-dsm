@@ -34,7 +34,7 @@ FROM python:3.6-slim
 
 ENV MONGO_URL mongo
 ENV MONGO_PORT 27017
-EVN PORT 4010
+ENV PORT 4010
 
 # Install basics
 RUN apt-get update && apt-get install -y git  # We net git to install other tng-* tools.
