@@ -46,8 +46,8 @@ RUN pip install setuptools \
 #
 #
 WORKDIR /
-ADD . /tng-dsm
-WORKDIR /tng-dsm
+ADD . /tng-vnv-dsm
+WORKDIR /tng-vnv-dsm
 RUN python setup.py develop
 
 #
@@ -57,4 +57,4 @@ RUN python setup.py develop
 #RUN pwd
 #EXPOSE 4010
 
-CMD python3 /tng-dsm/src/decsup/app.py start
+CMD python3 /tng-vnv-dsm/src/decsup/app.py start
