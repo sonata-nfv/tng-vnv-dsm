@@ -32,6 +32,10 @@
 
 FROM python:3.6-slim
 
+ENV MONGO_URL mongo
+ENV MONGO_PORT 27017
+ENV PORT 4010
+
 # Install basics
 RUN apt-get update && apt-get install -y git  # We net git to install other tng-* tools.
 RUN apt-get install -y python3-pip
@@ -51,6 +55,6 @@ RUN python setup.py develop
 #
 #WORKDIR src/decsup
 #RUN pwd
-#EXPOSE 5000
+#EXPOSE 4010
 
 CMD python3 /tng-dsm/src/decsup/app.py start
