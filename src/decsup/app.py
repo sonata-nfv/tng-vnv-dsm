@@ -239,4 +239,4 @@ if __name__ == '__main__':
     # log = logging.getLogger('werkzeug')
     # log.setLevel(logging.INFO)
     # log.addHandler(handler)
-    app.run(host='0.0.0.0', port=os.getenv('PORT',5000))
+    app.run(host='0.0.0.0', port=os.getenv('PORT',4010))
