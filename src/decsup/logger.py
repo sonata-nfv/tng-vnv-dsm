@@ -36,10 +36,15 @@ class TangoLogger(object):
     @staticmethod
     def getLogger(name):
         logging.basicConfig(filename='logger',level=logging.DEBUG)
-        logger = logging.getLogger("tango.{}".format(name))
+        logger = logging.getLogger()
         logger.propagate = False
         th = TangoJsonLogHandler('logger')
-        th.setLevel(logging.DEBUG)
+        # ch = logging.StreamHandler(sys.stdout)
+        # ch.setLevel(logging.DEBUG)
+        # formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        # ch.setFormatter(formatter)
+        # logger.addHandler(ch)
+        th.setLevel(logging.INFO)
         logger.addHandler(th)
         return logger
 
