@@ -66,7 +66,6 @@ class MongoDB:
     def __init__(self, collection):
         self.host = os.environ.get("MONGO_URL", self.def_host)
         self.port = os.environ.get("MONGO_PORT", self.def_port)
-        print('Mongo running in url:' + self.host + ' and port:' + self.port)
         self.database = self.def_database
         self.conn = pymongo.MongoClient(self.MONGO_URI.format(self.host, self.port))
         self.collection = self.conn[self.database][collection]

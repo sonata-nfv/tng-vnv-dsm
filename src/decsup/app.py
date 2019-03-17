@@ -59,8 +59,8 @@ api = Api(blueprint, version="0.1",
 app.register_blueprint(blueprint)
 
 # LOG = logging.getLogger('logger')
-# LOG.setLevel(logging.DEBUG)
 LOG = TangoLogger.getLogger(__name__)
+LOG.setLevel(logging.DEBUG)
 
 def catch_exception(f):
     @functools.wraps(f)
@@ -71,6 +71,19 @@ def catch_exception(f):
             print('Caught an exception in',f.__name__)
 
     return func
+
+@api.route('/log', methods = ['GET'])
+class TangoLocalLog(Resource):
+    def get(self):
+        with open("logger","r") as f:
+            return Response(f.read(),mimetype='text/plain')
+
+@api.route('/health', methods =['GET'])
+class TangoHealth(Resource):
+
+    def get(self):
+        return ioObj.generic_resp(200,'application/json',
+                                  ioObj.json_d(ioObj.success_message("Item deleted with occurrences")))
 
 
 @api.route('/tests/<user>/<test_id>', methods =['POST'])
@@ -212,31 +225,29 @@ class TangoDsmTests(Resource):
                  extra={"status": 200,"time_elapsed": "%.3f seconds" % (time.time()-start_time)})
         return ioObj.generic_resp(200, 'application/json',
                                   ioObj.json_d(dict_users))
-
-def mkdir_p(path):
-    try:
-        os.makedirs(path, exist_ok=True)  # Python>3.2
-    except TypeError:
-        try:
-            os.makedirs(path)
-        except OSError as exc: # Python >2.5
-            if exc.errno == errno.EEXIST and os.path.isdir(path):
-                pass
-            else: raise
+#
+# def mkdir_p(path):
+#     try:
+#         os.makedirs(path, exist_ok=True)  # Python>3.2
+#     except TypeError:
+#         try:
+#             os.makedirs(path)
+#         except OSError as exc: # Python >2.5
+#             if exc.errno == errno.EEXIST and os.path.isdir(path):
+#                 pass
+#             else: raise
 
 
 class MakeFileHandler(RotatingFileHandler):
     def __init__(self, filename, maxBytes, backupCount, mode='a', encoding=None, delay=0):
-        mkdir_p(os.path.dirname(filename))
         RotatingFileHandler.__init__(self, filename,maxBytes, backupCount )
 
 
 if __name__ == '__main__':
-    app.debug=True
-    # handler = MakeFileHandler ( 'logs/logger' , maxBytes=10000 , backupCount=1 )
-    # handler.setLevel ( logging.DEBUG )
-    # app.logger.addHandler ( handler )
-    # log = logging.getLogger('werkzeug')
-    # log.setLevel(logging.INFO)
-    # log.addHandler(handler)
-    app.run(host='0.0.0.0', port=os.getenv('PORT',4010))
+    logger = logging.getLogger('werkzeug')
+    logger.setLevel(logging.INFO)
+    logger.addHandler(logging.StreamHandler())
+    handler = MakeFileHandler('logger', maxBytes=1000, backupCount=1)
+    handler.setLevel(logging.DEBUG)
+    app.logger.addHandler(handler)
+    app.run(host='0.0.0.0', port=os.getenv('PORT', 4010), debug=True)

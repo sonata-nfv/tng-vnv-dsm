@@ -8,7 +8,7 @@ pipeline {
             echo 'Building...'
           }
         }
-        stage('Building tng-cat...') {
+        stage('Building tng-vnv-dsm...') {
           steps {
             sh 'docker build --no-cache -t registry.sonata-nfv.eu:5000/tng-vnv-dsm .'
           }
@@ -36,7 +36,7 @@ pipeline {
             echo 'Publication of containers in local registry....'
           }
         }
-        stage('Publishing tng-cat') {
+        stage('Publishing tng-vnv-dsm') {
           steps {
             sh 'docker push registry.sonata-nfv.eu:5000/tng-vnv-dsm'
           }
@@ -76,7 +76,7 @@ pipeline {
             echo 'Promoting containers to integration'
             }
          }
-        stage('tng-cat') {
+        stage('tng-vnv-dsm') {
 		    steps {
 				sh 'docker tag registry.sonata-nfv.eu:5000/tng-vnv-dsm:latest registry.sonata-nfv.eu:5000/tng-vnv-dsm:int'
 				sh 'docker push registry.sonata-nfv.eu:5000/tng-vnv-dsm:int'

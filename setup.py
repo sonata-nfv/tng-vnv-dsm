@@ -45,7 +45,7 @@ desc = """
 Component of recommendation engine in the 5GTANGO project
 """
 
-setup(name='tng-dsm',
+setup(name='tng-vnv-dsm',
       license='Apache License, Version 2.0',
       version='0.1',
       url='',
