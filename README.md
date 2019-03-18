@@ -1,7 +1,8 @@
 [![Join the chat at https://gitter.im/sonata-nfv/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sonata-nfv/Lobby) [![Build Status](https://jenkins.sonata-nfv.eu/buildStatus/icon?job=tng-vnv-dsm/master)](https://jenkins.sonata-nfv.eu/job/tng-vnv-dsm/job/master/)
 
+<p align="center"><img src="https://github.com/sonata-nfv/tng-api-gtw/wiki/images/sonata-5gtango-logo-500px.png" /></p>
 
-# tng-vnv-dsm
+# tng-vnv-dsm - Decision Support Mechanism/Matrix Factorization-based Recommender System
 
 This repository includes the `tng-vnv-dsm` component, which incorporates the Decision Support Mechanism of the 5GTANGO Catalogues, both of which are part of the European H2020 project [5GTANGO](http://www.5gtango.eu). The component is responsible for delivering test recommendations to the end-users of the 5GTANGO ecosystem, through the deployment of matrix-factorization techniques.
 
