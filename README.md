@@ -3,7 +3,7 @@
 <p align="center"><img src="https://github.com/sonata-nfv/tng-api-gtw/wiki/images/sonata-5gtango-logo-500px.png" /></p>
 
 # tng-vnv-dsm
-## Decision Support Mechanism/Matrix Factorization-based Recommender System
+## Decision Support Mechanism/SVD-based Recommender System
 
 This repository includes the `tng-vnv-dsm` component, which incorporates the Decision Support Mechanism of the 5GTANGO Catalogues, both of which are part of the European H2020 project [5GTANGO](http://www.5gtango.eu). The component is responsible for delivering test recommendations to the end-users of the 5GTANGO ecosystem, through the deployment of matrix-factorization techniques.
 
@@ -13,7 +13,7 @@ Besides this README file, more documentation is available in the [wiki](https://
 
 ## Installation and Dependencies
 
-This component is implemented in Python3. Its requirements are specified in the `packages.txt` in the root folder as follows [here](https://github.com/sonata-nfv/tng-vnv-dsm/blob/master/packages.txt). In general, a new virtual environment would be beneficial in the installation.
+This component is implemented in Python3. Its requirements are specified in the `requirements.txt` in the root folder as follows [here](https://github.com/sonata-nfv/tng-vnv-dsm/blob/master/requirements.txt). In general, a new virtual environment would be beneficial in the installation.
 
 ### Automated installation:
 
@@ -37,11 +37,6 @@ The Decision Support mechanism is delivered to be deployed as a micro service, o
 
 
 #### Run `tng-vnv-dsm` as a service:
-##### Bare metal
-In this option, a functional mongoDB is essential for the core functionality of the service.
-```bash
-python src/decsup/app.py
-```
 
 ##### Docker-based
 
@@ -53,18 +48,6 @@ sudo docker build .
 # run Docker container
 docker run --rm -d -p 4010:4010 --name tng-vnv-dsm registry.sonata-nfv.eu:5000/tng-vnv-dsm
 ```
-
-##### Docker-compose-based
-
-In this option, a functional mongoDB is included in the docker-compose script
-```bash
-# build Docker containers of MongoDB and tng-vnv-dsm
-sudo docker-compose build
-
-# run Docker containers
-sudo docker-compose up
-```
-
 
 ## Development
 
@@ -89,7 +72,7 @@ This 5GTANGO component is published under Apache 2.0 license. Please see the LIC
 
 The following lead developers are responsible for this repository and have admin rights. They can, for example, merge pull requests.
 
-- Panagiotis Stavrianos ([@panstav1](https://github.com/panstav1))
+- Marios Touloupou ([@mtouloup](https://github.com/mtouloup))
 
 #### Feedback-Chanel
 

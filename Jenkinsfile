@@ -45,9 +45,9 @@ pipeline {
     }
 
 
-  stage('Deployment in Pre-Integration SP and VnV Environment') {
+  stage('Deployment in Pre-Integration VnV Environment') {
     parallel {
-      stage('Deployment in Pre-Integration SP and VnV Environment') {
+      stage('Deployment in Pre-Integration VnV Environment') {
         steps {
           echo 'Deploying in pre-integration...'
         }
@@ -58,7 +58,6 @@ pipeline {
           sh 'rm -rf tng-devops || true'
           sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
           dir(path: 'tng-devops') {
-           sh 'ansible-playbook roles/sp.yml -i environments -e "target=pre-int-sp component=tng-vnv-dsm"'
            sh 'ansible-playbook roles/vnv.yml -i environments -e "target=pre-int-vnv component=tng-vnv-dsm"'
           }
         }
@@ -83,7 +82,6 @@ pipeline {
 				sh 'rm -rf tng-devops || true'
 				sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
 				dir(path: 'tng-devops') {
-					sh 'ansible-playbook roles/sp.yml -i environments -e "target=int-sp component=tng-vnv-dsm"'
 					sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-vnv component=tng-vnv-dsm"'
 				}
 			}
@@ -97,13 +95,13 @@ pipeline {
     }
      success {
         emailext(from: "jenkins@sonata-nfv.eu",
-        to: "pstav@unipi.gr",
+        to: "mtouloup@unipi.gr",
         subject: "SUCCESS: ${env.JOB_NAME}/${env.BUILD_ID} (${env.BRANCH_NAME})",
         body: "${env.JOB_URL}")
      }
      failure {
         emailext(from: "jenkins@sonata-nfv.eu",
-        to: "pstav@unipi.gr",
+        to: "mtouloup@unipi.gr",
         subject: "FAILURE: ${env.JOB_NAME}/${env.BUILD_ID} (${env.BRANCH_NAME})",
         body: "${env.JOB_URL}")
         }

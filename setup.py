@@ -30,34 +30,24 @@
 ## acknowledge the contributions of their colleagues of the 5GTANGO
 ## partner consortium (www.5gtango.eu).
 
-# Libraries
-from setuptools import setup, find_packages
-import os.path as path
-#import numpy as np
+##Libraries
+from setuptools import setup
+import os
 
 # Read requirements.txt file
-curDir = path.dirname(__file__)
-with open(path.join(curDir, 'packages.txt')) as file:
+curDir = os.path.dirname(os.path.realpath(__file__))
+
+with open(os.path.join(curDir, 'requirements.txt')) as file:
     requirements = file.read().splitlines()
-
-# Description of service
-desc = """
-Component of recommendation engine in the 5GTANGO project
-"""
-
-setup(name='tng-vnv-dsm',
-      license='Apache License, Version 2.0',
-      version='0.1',
-      url='',
-      author='Panagiotis Stavrianos',
-      author_email='pstav@unipi.gr',
-      long_description=desc,
-      package_dir={'': 'src'},
-      packages=find_packages('src'),  # dependency resolution
-      #include_dirs=[np.get_include()],
-      namespace_packages=['decsup', ],
-      include_package_data=True,
-      install_requires=requirements,
-      zip_safe=False,
-      setup_requires=[],
-      tests_require=['pytest'])
+	
+	
+setup(
+   name='tng-vnv-dsm',
+   version='1.0',
+   description='Component of recommendation engine in the 5GTANGO project',
+   author='Marios Touloupos, Evgenia Kapassa',
+   author_email='{mtouloup,ekapassa}@unipi.gr',
+   package_dir={'': 'src'},  
+   zip_safe=False,
+   install_requires=requirements,
+)

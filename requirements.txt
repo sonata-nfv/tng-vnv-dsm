@@ -1,0 +1,8 @@
+Werkzeug==0.14.1
+numpy
+cython
+flask
+json-logging
+requests
+numpy
+surprise
