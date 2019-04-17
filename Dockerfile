@@ -77,4 +77,4 @@ WORKDIR /app
 #Expose Port
 EXPOSE 4010
 
-CMD ["python", "/app/src/rec_sys/app.py"]
+CMD ["python", "/app/src/rec_sys/main.py"]
