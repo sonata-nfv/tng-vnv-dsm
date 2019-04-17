@@ -106,7 +106,7 @@ def add_user_item(package_uuid):
     except Exception as e:
         error_response = {'Response':'An error Occurred'}
         logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call", extra={'props': {"Error": e}})
-        return Response(json.dumps(error_response),  status=404,  mimetype='application/json')
+        return Response(json.dumps(error_response),  status=500,  mimetype='application/json')
 
 # Api Method to delete a user and his'her assosiated items
 @app.route('/tng-vnv-dsm/api/v1/users/<user>', methods=['DELETE'])
