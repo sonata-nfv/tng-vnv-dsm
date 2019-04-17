@@ -35,7 +35,6 @@ from flask import Flask,Response
 from rec_methods import methods
 import json_logging, logging, sys
 
-
 app = Flask(__name__)
 
 json_logging.ENABLE_JSON_LOGGING = True
@@ -59,7 +58,7 @@ def user_recommend(user):
     if response_length > 2:
         return Response(methods.get_recommendations(user),  mimetype='application/json')
     else:
-        error_response = {'Error':'User Not Found'}  
+        error_response = {'Response':'User Not Found'}  
         return Response(json.dumps(error_response), status=404,  mimetype='application/json')
 
 # Api Method for retrieve the component's health
@@ -73,13 +72,23 @@ def health():
 @app.route('/tng-vnv-dsm/api/v1/test_items', methods=['GET'])
 def tests():
     logger.info("/tng-vnv-dsm/api/v1/test_items Call")
-    return Response(json.dumps(methods.get_items()), mimetype='application/json')
+    response_length = len(methods.get_items())
+    if response_length > 0:
+        return Response(json.dumps(methods.get_items()), status=200, mimetype='application/json')
+    else:
+        response= {'Response':'No test items currently available - Dataset Empty'}
+        return Response(json.dumps(response), status=404, mimetype='application/json')		
 
 # Api Method for retrieve the users the systems is trained for
 @app.route('/tng-vnv-dsm/api/v1/users', methods=['GET'])
 def users():
     logger.info("/tng-vnv-dsm/api/v1/users Call")
-    return Response(json.dumps(methods.get_users()), mimetype='application/json')
+    response_length = len(methods.get_users())
+    if response_length > 1:
+        return Response(json.dumps(methods.get_users()), mimetype='application/json')
+    else:
+        response= {'Response':'No Users currently available - Dataset Empty'}
+        return Response(json.dumps(response), status=404, mimetype='application/json')		   
 
 # Api Method to add user-item pairs from a test descriptor
 @app.route('/tng-vnv-dsm/api/v1/users/items/<package_uuid>', methods=['POST'])
@@ -88,17 +97,16 @@ def add_user_item(package_uuid):
     try:
         user_name = methods.get_username(package_uuid)
         if (user_name == None):
-            user_name = "Marios"               
+            user_name = "tango_user"               
         test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
         test_tags = methods.get_test_tags(test_descriptors_uuids)
-        methods.add_user_item(test_tags,user_name)
-        response =  {'Response':'User - Item added succesfully', 'user': user_name}
+        response =  methods.add_user_item(test_tags,user_name)
         logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call", extra={'props': {"Response": 'User - Item added succesfully'}})
         return Response(json.dumps(response), status=201,  mimetype='application/json')
     except Exception as e:
-        error_response = {'Error':'An error Occurred'}
+        error_response = {'Response':'An error Occurred'}
         logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call", extra={'props': {"Error": e}})
-        return Response(json.dumps(error_response),  status=404,  mimetype='application/json')
+        return Response(json.dumps(error_response),  status=500,  mimetype='application/json')
 
 # Api Method to delete a user and his'her assosiated items
 @app.route('/tng-vnv-dsm/api/v1/users/<user>', methods=['DELETE'])
@@ -108,4 +116,4 @@ def del_user(user):
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=4010, debug=True)
-    
+

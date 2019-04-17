@@ -116,10 +116,14 @@ def get_test_tags(test_descriptors_uuids):
 
 #Method to add user-item in the Dataset            
 def add_user_item(test_tags,user_name):
-     with open(file, 'a', newline='') as f:
-         wr = csv.writer(f)
-         for test_tag in test_tags:
-             wr.writerow([user_name, test_tag, '1'])             
+	if (len(test_tags) > 0):	
+		with open(file, 'a', newline='') as f:
+			 wr = csv.writer(f)
+			 for test_tag in test_tags:
+				 wr.writerow([user_name, test_tag, '1'])
+		return {'Response':'User-Item Added in the Dataset'}
+	else:
+		return {'Response':'No test tags were found in the test decriptor'}		
 
 #Method for retrival of the trained users
 def get_users():
@@ -178,7 +182,7 @@ def del_user(user):
             if (counter == 1):
                 return  {'Response':'User Deleted'}
             else:
-                return  {'Error':'User Not Found'}
+                return  {'Response':'User Not Found'}
     except Exception as e:
         error = str(e)
         return (error)        
