@@ -97,7 +97,7 @@ def add_user_item(package_uuid):
     try:
         user_name = methods.get_username(package_uuid)
         if (user_name == None):
-            user_name = "Evgenia"               
+            user_name = "tango_user"               
         test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
         test_tags = methods.get_test_tags(test_descriptors_uuids)
         response =  methods.add_user_item(test_tags,user_name)
