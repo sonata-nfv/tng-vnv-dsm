@@ -121,7 +121,7 @@ $ python setup.py develop
 
 ### Contributing
 
-You may contribute to the tng-sdk-analyze-weight tool you should:
+You may contribute to the tng-vnv-dsm tool you should:
 
 1. Fork [this repository](https://github.com/sonata-nfv/tng-vnv-dsm);
 2. Work on your proposed changes, preferably through submiting [issues](https://github.com/sonata-nfv/tng-vnv-dsm/issues);
