@@ -4,5 +4,4 @@ cython
 flask
 json-logging
 requests
-numpy
 surprise
