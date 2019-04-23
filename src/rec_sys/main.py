@@ -111,7 +111,7 @@ class dsm_getUsers(Resource):
 @api.route('/tng-vnv-dsm/api/v1/users/items/<package_uuid>', methods =['POST'])
 class dsm_add_user_item(Resource):
 
-    def post(self):
+    def post(self, package_uuid=None):
         logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call")
         try:
             user_name = methods.get_username(package_uuid)
@@ -131,7 +131,7 @@ class dsm_add_user_item(Resource):
 @api.route('/tng-vnv-dsm/api/v1/users/<user>', methods =['DELETE'])
 class dsm_delete_user(Resource):
 
-    def delete(self):
+    def delete(self, user=None):
         logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
         return Response(json.dumps(methods.del_user(user)), mimetype='application/json')
 
