@@ -114,6 +114,25 @@ def get_test_tags(test_descriptors_uuids):
             test_tags.append(test_tag)
     return test_tags
 
+#Method to get the user name from the package metadata
+def get_testing_tags(package_uuid):
+    cat_url = os.getenv('CATALOGUES_URL', "http://pre-int-vnv-bcn.5gtango.eu:4011/catalogues/api/v2/")
+    pack_url = cat_url + "packages/" + package_uuid
+    headers = {'Content-type': 'application/json'}
+    r = requests.get(pack_url, headers=headers)
+    json_respo = r.json()
+    package_content = json_respo["pd"]["package_content"]
+    response = []
+    for item in package_content:
+        if 'testing_tags' not in item:
+            continue
+        testing_tags = item['testing_tags']
+        for testing_tag in testing_tags:
+            response.append(testing_tag)
+    return(response)
+
+
+
 #Method to add user-item in the Dataset            
 def add_user_item(test_tags,user_name):
 	if (len(test_tags) > 0):	
@@ -123,7 +142,7 @@ def add_user_item(test_tags,user_name):
 				 wr.writerow([user_name, test_tag, '1'])
 		return {'Response':'User-Item Added in the Dataset'}
 	else:
-		return {'Response':'No test tags were found in the test decriptor'}		
+		return {'Response':'No test tags were found in the package descriptor'}
 
 #Method for retrival of the trained users
 def get_users():

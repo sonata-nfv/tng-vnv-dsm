@@ -117,8 +117,8 @@ class dsm_add_user_item(Resource):
             user_name = methods.get_username(package_uuid)
             if (user_name == None):
                 user_name = "tango_user"               
-            test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
-            test_tags = methods.get_test_tags(test_descriptors_uuids)
+            # test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
+            test_tags = methods.get_testing_tags(package_uuid)
             response =  methods.add_user_item(test_tags,user_name)
             logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call", extra={'props': {"Response": 'User - Item added succesfully'}})
             return Response(json.dumps(response), status=201,  mimetype='application/json')
