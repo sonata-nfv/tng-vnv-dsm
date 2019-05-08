@@ -142,7 +142,7 @@ def add_user_item(test_tags,user_name):
 				 wr.writerow([user_name, test_tag, '1'])
 		return {'Response':'User-Item Added in the Dataset'}
 	else:
-		return {'Response':'No test tags were found in the test decriptor'}		
+		return {'Response':'No test tags were found in the package descriptor'}
 
 #Method for retrival of the trained users
 def get_users():
