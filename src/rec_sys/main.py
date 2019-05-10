@@ -65,7 +65,7 @@ class dsm_health(Resource):
 
 								  
 # Api Method for retrieve the user's recommendation
-@api.route('/tng-vnv-dsm/api/v1/users/<user>', methods =['GET'])
+@api.route('/users/<user>', methods =['GET'])
 class dsm_rec(Resource):
 
     def get(self, user=None):
@@ -81,7 +81,7 @@ class dsm_rec(Resource):
 
 
 # Api Method for retrieve the tests tags the systems is trained for
-@api.route('/tng-vnv-dsm/api/v1/test_items', methods =['GET'])
+@api.route('/test_items', methods =['GET'])
 class dsm_testItems(Resource):
 
     def get(self):
@@ -95,7 +95,7 @@ class dsm_testItems(Resource):
 			
 
 # Api Method for retrieve the users the systems is trained for
-@api.route('/tng-vnv-dsm/api/v1/users', methods =['GET'])
+@api.route('/users', methods =['GET'])
 class dsm_getUsers(Resource):
 
     def get(self):
@@ -108,7 +108,7 @@ class dsm_getUsers(Resource):
             return Response(json.dumps(response), status=404, mimetype='application/json')			   
 
 # Api Method to add user-item pairs from a test descriptor
-@api.route('/tng-vnv-dsm/api/v1/users/items/<package_uuid>', methods =['POST'])
+@api.route('/users/items/<package_uuid>', methods =['POST'])
 class dsm_add_user_item(Resource):
 
     def post(self, package_uuid=None):
@@ -128,7 +128,7 @@ class dsm_add_user_item(Resource):
             return Response(json.dumps(error_response),  status=500,  mimetype='application/json')		
 
 #Api method to delete a user and all hi'/her assosiated items	
-@api.route('/tng-vnv-dsm/api/v1/users/<user>', methods =['DELETE'])
+@api.route('/users/<user>', methods =['DELETE'])
 class dsm_delete_user(Resource):
 
     def delete(self, user=None):
