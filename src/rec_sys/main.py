@@ -38,7 +38,7 @@ import json_logging, logging, sys
 
 app = Flask(__name__)
 
-blueprint = Blueprint('api', __name__, url_prefix='/tng-vnv-dsm/api/v1')
+blueprint = Blueprint('api', __name__, url_prefix='/tng-vnv-dsm/api/v1/')
 api = Api(blueprint, version="0.1",
           title='5GTANGO tng-vnv-dsm API',
           description="5GTANGO Decision Support Mechanism - Test Recommendation System.")
