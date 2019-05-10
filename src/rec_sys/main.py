@@ -37,6 +37,7 @@ from rec_methods import methods
 import json_logging, logging, sys
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 blueprint = Blueprint('api', __name__, url_prefix='/tng-vnv-dsm/api/v1')
 api = Api(blueprint, version="0.1",
