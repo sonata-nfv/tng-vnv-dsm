@@ -56,7 +56,7 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
 # Api Method for retrieve the component's health
-@api.route('/tng-vnv-dsm/api/v1/health', methods =['GET'])
+@api.route('/health', methods =['GET'])
 class dsm_health(Resource):
 
     def get(self):
