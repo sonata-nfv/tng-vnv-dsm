@@ -67,8 +67,10 @@ class DsmHealth(Resource):
 class DsmUserItem(Resource):
 
     def post(self, user=None, item=None):
+        test_tags = []
+        test_tags.append(item)
         logger.info("/tng-vnv-dsm/api/v1/users/<user>/<item> Call")
-        return Response(json.dumps(methods.add_user_item(list(item), user)), mimetype='application/json')
+        return Response(json.dumps(methods.add_user_item(test_tags, user)), mimetype='application/json')
 
 
 # Api Method to add user-item pairs from a test descriptor
@@ -83,7 +85,6 @@ class DsmAddUserItem(Resource):
                 user_name = "tango_user"
             # test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
             test_tags = methods.get_testing_tags(package_uuid)
-            print("DEBUGGING USER NAME:" + user_name)
             response = methods.add_user_item(test_tags, user_name)
             logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call",
                         extra={'props': {"Response": 'User - Item added succesfully'}})
