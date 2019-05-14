@@ -121,11 +121,11 @@ class DsmGetUsers(Resource):
 
 
 # Api Method for retrieve the user's recommendation
-@api.route('/users/delete/<user>', methods=['GET'])
+@api.route('/users/<user>', methods=['GET'])
 class DsmRec(Resource):
 
     def get(self, user=None):
-        logger.info("/tng-vnv-dsm/api/v1/users/delete<user> Call")
+        logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
         response = methods.get_recommendations(user)
         response_length = len(response)
         if response_length > 2:
@@ -135,11 +135,11 @@ class DsmRec(Resource):
             return Response(json.dumps(error_response), status=404, mimetype='application/json')
 
 # Api method to delete a user and all his/her associated items
-@api.route('/users/<user>', methods=['DELETE'])
+@api.route('/users/delete/<user>', methods=['DELETE'])
 class DsmDeleteUser(Resource):
 
     def delete(self, user=None):
-        logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
+        logger.info("/tng-vnv-dsm/api/v1/users/delete/<user> Call")
         return Response(json.dumps(methods.del_user(user)), mimetype='application/json')
 
 
