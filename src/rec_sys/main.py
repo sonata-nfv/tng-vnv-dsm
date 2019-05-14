@@ -90,9 +90,9 @@ class DsmAddUserItem(Resource):
                         extra={'props': {"Response": 'User - Item added succesfully'}})
             return Response(json.dumps(response), status=201, mimetype='application/json')
         except Exception as e:
-            error_response = {'Response': 'An error Occurred'}
+            error_response = {'Response': 'Package could not be found'}
             logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call", extra={'props': {"Error": e}})
-            return Response(json.dumps(error_response), status=500, mimetype='application/json')
+            return Response(json.dumps(error_response), status=404, mimetype='application/json')
 
 
 # Api Method for retrieve the tests tags the systems is trained for
