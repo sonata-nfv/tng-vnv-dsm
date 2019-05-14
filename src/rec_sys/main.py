@@ -70,6 +70,29 @@ class DsmUserItem(Resource):
         logger.info("/tng-vnv-dsm/api/v1/users/<user>/<item> Call")
         return 'Hello ' + user + ', item selected:' + item
 
+
+# Api Method to add user-item pairs from a test descriptor
+@api.route('/users/items/<package_uuid>', methods=['POST'])
+class DsmAddUserItem(Resource):
+
+    def post(self, package_uuid=None):
+        logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call")
+        try:
+            user_name = methods.get_username(package_uuid)
+            if user_name is None:
+                user_name = "tango_user"
+                # test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
+            test_tags = methods.get_testing_tags(package_uuid)
+            response = methods.add_user_item(test_tags, user_name)
+            logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call",
+                        extra={'props': {"Response": 'User - Item added succesfully'}})
+            return Response(json.dumps(response), status=201, mimetype='application/json')
+        except Exception as e:
+            error_response = {'Response': 'An error Occurred'}
+            logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call", extra={'props': {"Error": e}})
+            return Response(json.dumps(error_response), status=500, mimetype='application/json')
+
+
 # Api Method for retrieve the tests tags the systems is trained for
 @api.route('/test_items', methods=['GET'])
 class DsmTestItems(Resource):
@@ -96,34 +119,6 @@ class DsmGetUsers(Resource):
             response = {'Response': 'No Users currently available - Dataset Empty'}
             return Response(json.dumps(response), status=404, mimetype='application/json')
 
-# Api Method to add user-item pairs from a test descriptor
-@api.route('/users/items/<package_uuid>', methods=['POST'])
-class DsmAddUserItem(Resource):
-
-    def post(self, package_uuid=None):
-        logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call")
-        try:
-            user_name = methods.get_username(package_uuid)
-            if user_name is None:
-                user_name = "tango_user"
-                # test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
-            test_tags = methods.get_testing_tags(package_uuid)
-            response = methods.add_user_item(test_tags, user_name)
-            logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call",
-                        extra={'props': {"Response": 'User - Item added succesfully'}})
-            return Response(json.dumps(response), status=201, mimetype='application/json')
-        except Exception as e:
-            error_response = {'Response': 'An error Occurred'}
-            logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call", extra={'props': {"Error": e}})
-            return Response(json.dumps(error_response), status=500, mimetype='application/json')
-
-# Api method to delete a user and all hi'/her assosiated items
-@api.route('/users/<user>', methods=['DELETE'])
-class DsmDeleteUser(Resource):
-
-    def delete(self, user=None):
-        logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
-        return Response(json.dumps(methods.del_user(user)), mimetype='application/json')
 
 # Api Method for retrieve the user's recommendation
 @api.route('/users/<user>', methods=['GET'])
@@ -138,6 +133,14 @@ class DsmRec(Resource):
         else:
             error_response = {'Response': 'User Not Found'}
             return Response(json.dumps(error_response), status=404, mimetype='application/json')
+
+# Api method to delete a user and all his/her associated items
+@api.route('/users/<user>', methods=['DELETE'])
+class DsmDeleteUser(Resource):
+
+    def delete(self, user=None):
+        logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
+        return Response(json.dumps(methods.del_user(user)), mimetype='application/json')
 
 
 if __name__ == "__main__":
