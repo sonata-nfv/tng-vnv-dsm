@@ -79,9 +79,9 @@ class DsmAddUserItem(Resource):
         logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call")
         try:
             user_name = methods.get_username(package_uuid)
-            if user_name == None:
+            if (user_name == None):
                 user_name = "tango_user"
-                # test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
+            # test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
             test_tags = methods.get_testing_tags(package_uuid)
             response = methods.add_user_item(test_tags, user_name)
             logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call",
