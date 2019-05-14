@@ -70,7 +70,6 @@ class DsmUserItem(Resource):
         test_tags = []
         test_tags.append(item)
         logger.info("/tng-vnv-dsm/api/v1/users/<user>/<item> Call")
-        methods.reTrain()
         return Response(json.dumps(methods.add_user_item(test_tags, user)), mimetype='application/json')
 
 
@@ -87,7 +86,6 @@ class DsmAddUserItem(Resource):
             # test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
             test_tags = methods.get_testing_tags(package_uuid)
             response = methods.add_user_item(test_tags, user_name)
-            methods.reTrain()
             logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call",
                         extra={'props': {"Response": 'User - Item added succesfully'}})
             return Response(json.dumps(response), status=201, mimetype='application/json')

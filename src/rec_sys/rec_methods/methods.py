@@ -93,7 +93,7 @@ top_n = get_top_n(predictions, n=2)
 logger.info("Top N retrieved > OK")
 
 
-def reTrain():
+def retrain():
     # 3. Load the dataset
     data = Dataset.load_from_file(file, reader=reader)
     logger.info("> dataset OK")
@@ -179,6 +179,7 @@ def add_user_item(test_tags, user_name):
             wr = csv.writer(f)
             for test_tag in test_tags:
                 wr.writerow([user_name, test_tag, '1'])
+            retrain()
         return {'Response': 'User-Item Added in the Dataset'}
     else:
         return {'Response': 'No test tags were found in the package descriptor'}
