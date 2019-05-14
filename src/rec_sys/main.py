@@ -130,7 +130,7 @@ class DsmRec(Resource):
         logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
         response = methods.get_recommendations(user)
         response_length = len(response)
-        if response_length > 2:
+        if response_length > 0:
             return Response(methods.get_recommendations(user), mimetype='application/json')
         else:
             error_response = {'Response': 'User Not Found'}
