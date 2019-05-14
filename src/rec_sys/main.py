@@ -31,7 +31,7 @@
 ## partner consortium (www.5gtango.eu).
 
 import json
-from flask import Flask,Response,Blueprint
+from flask import Flask, Response, Blueprint
 from flask_restplus import Api, Resource
 from rec_methods import methods
 import json_logging, logging, sys
@@ -44,7 +44,6 @@ api = Api(blueprint, version="0.1",
           description="5GTANGO Decision Support Mechanism - Test Recommendation System.")
 app.register_blueprint(blueprint)
 
-
 json_logging.ENABLE_JSON_LOGGING = True
 json_logging.init(framework_name='flask')
 json_logging.init_request_instrument(app)
@@ -56,39 +55,40 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
 # Api Method for retrieve the component's health
-@api.route('/health', methods =['GET'])
+@api.route('/health', methods=['GET'])
 class dsm_health(Resource):
 
     def get(self):
-        response= {'Status':'Alive'}
-        return Response(json.dumps(response),  mimetype='application/json')
+        response = {'Status': 'Alive'}
+        return Response(json.dumps(response), mimetype='application/json')
 
-								  
+
 # Api Method for retrieve the user's recommendation
-@api.route('/users/<user>', methods =['GET'])
+@api.route('/users/<user>', methods=['GET'])
 class dsm_rec(Resource):
 
     def get(self, user=None):
         logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
         response = methods.get_recommendations(user)
         response_length = len(response)
-		
         if response_length > 2:
-            return Response(methods.get_recommendations(user),  mimetype='application/json')
+            return Response(methods.get_recommendations(user), mimetype='application/json')
         else:
-            error_response = {'Response':'User Not Found'}  
-            return Response(json.dumps(error_response), status=404,  mimetype='application/json')
+            error_response = {'Response': 'User Not Found'}
+            return Response(json.dumps(error_response), status=404, mimetype='application/json')
+
 
 # Api method to add a new pair based on what the user has selected
-@api.route('/users/<user>/<item>', methods = ['POST'])
+@api.route('/users/<user>/<item>', methods=['POST'])
 class dsm_user_item(Resource):
 
     def post(self, user=None, item=None):
         logger.info("/tng-vnv-dsm/api/v1/users/<user>/<item> Call")
         return 'Hello ' + user + ', item selected:' + item
 
+
 # Api Method for retrieve the tests tags the systems is trained for
-@api.route('/test_items', methods =['GET'])
+@api.route('/test_items', methods=['GET'])
 class dsm_testItems(Resource):
 
     def get(self):
@@ -97,12 +97,12 @@ class dsm_testItems(Resource):
         if response_length > 0:
             return Response(json.dumps(methods.get_items()), status=200, mimetype='application/json')
         else:
-            response= {'Response':'No test items currently available - Dataset Empty'}
+            response = {'Response': 'No test items currently available - Dataset Empty'}
             return Response(json.dumps(response), status=404, mimetype='application/json')
-			
+
 
 # Api Method for retrieve the users the systems is trained for
-@api.route('/users', methods =['GET'])
+@api.route('/users', methods=['GET'])
 class dsm_getUsers(Resource):
 
     def get(self):
@@ -111,11 +111,13 @@ class dsm_getUsers(Resource):
         if response_length > 1:
             return Response(json.dumps(methods.get_users()), mimetype='application/json')
         else:
-            response= {'Response':'No Users currently available - Dataset Empty'}
-            return Response(json.dumps(response), status=404, mimetype='application/json')			   
+            response = {'Response': 'No Users currently available - Dataset Empty'}
+            return Response(json.dumps(response), status=404, mimetype='application/json')
 
-# Api Method to add user-item pairs from a test descriptor
-@api.route('/users/items/<package_uuid>', methods =['POST'])
+        # Api Method to add user-item pairs from a test descriptor
+
+
+@api.route('/users/items/<package_uuid>', methods=['POST'])
 class dsm_add_user_item(Resource):
 
     def post(self, package_uuid=None):
@@ -123,25 +125,27 @@ class dsm_add_user_item(Resource):
         try:
             user_name = methods.get_username(package_uuid)
             if (user_name == None):
-                user_name = "tango_user"               
-            # test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
+                user_name = "tango_user"
+                # test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
             test_tags = methods.get_testing_tags(package_uuid)
-            response =  methods.add_user_item(test_tags,user_name)
-            logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call", extra={'props': {"Response": 'User - Item added succesfully'}})
-            return Response(json.dumps(response), status=201,  mimetype='application/json')
+            response = methods.add_user_item(test_tags, user_name)
+            logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call",
+                        extra={'props': {"Response": 'User - Item added succesfully'}})
+            return Response(json.dumps(response), status=201, mimetype='application/json')
         except Exception as e:
-            error_response = {'Response':'An error Occurred'}
+            error_response = {'Response': 'An error Occurred'}
             logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call", extra={'props': {"Error": e}})
-            return Response(json.dumps(error_response),  status=500,  mimetype='application/json')		
+            return Response(json.dumps(error_response), status=500, mimetype='application/json')
 
-#Api method to delete a user and all hi'/her assosiated items	
-@api.route('/users/<user>', methods =['DELETE'])
+
+# Api method to delete a user and all hi'/her assosiated items
+@api.route('/users/<user>', methods=['DELETE'])
 class dsm_delete_user(Resource):
 
     def delete(self, user=None):
         logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
         return Response(json.dumps(methods.del_user(user)), mimetype='application/json')
 
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=4010, debug=True)
-
