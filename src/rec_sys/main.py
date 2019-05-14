@@ -68,7 +68,7 @@ class DsmUserItem(Resource):
 
     def post(self, user=None, item=None):
         logger.info("/tng-vnv-dsm/api/v1/users/<user>/<item> Call")
-        return 'Hello ' + user + ', item selected:' + item
+        return Response(json.dumps(methods.add_user_item(list(item), user)), mimetype='application/json')
 
 
 # Api Method to add user-item pairs from a test descriptor
@@ -121,11 +121,11 @@ class DsmGetUsers(Resource):
 
 
 # Api Method for retrieve the user's recommendation
-@api.route('/users/<user>', methods=['GET'])
+@api.route('/users/delete/<user>', methods=['GET'])
 class DsmRec(Resource):
 
     def get(self, user=None):
-        logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
+        logger.info("/tng-vnv-dsm/api/v1/users/delete<user> Call")
         response = methods.get_recommendations(user)
         response_length = len(response)
         if response_length > 2:
