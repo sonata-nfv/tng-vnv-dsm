@@ -128,7 +128,13 @@ class DsmRec(Resource):
 
     def get(self, user=None):
         logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
-        return Response(methods.get_recommendations(user), mimetype='application/json')
+        recommendations = str(methods.get_recommendations(user))
+        print("RECOMMENDATIONS:" + recommendations)
+        if "user" in recommendations:
+            return Response(recommendations, mimetype='application/json')
+        else:
+            response = {'Response': 'User not Found'}
+            return Response(json.dumps(response), status=404, mimetype='application/json')
 
 
 # Api method to delete a user and all his/her associated items

@@ -55,20 +55,20 @@ file = os.path.join(cwd, 'src', 'rec_sys', 'rec_methods', 'data', 'custom_datase
 reader = Reader(line_format='user item rating', sep=',', skip_lines=1, rating_scale=(1, 5))
 logger.info("Surprise Reader for the Dataset created successfully")
 
-# 3. Load the dataset
+# 2. Load the dataset
 data = Dataset.load_from_file(file, reader=reader)
 logger.info("> dataset OK")
 
-# Creating train dataset...
+# 3. Creating train dataset...
 trainset = data.build_full_trainset()
 logger.info("> train dataset OK")
 
-# Training...
+# 4. Training...
 algo = SVD()
 algo.fit(trainset)
 logger.info("> Training OK")
 
-# Predict ratings for all pairs (u, i) that are NOT in the training set.
+# 5. Predict ratings for all pairs (u, i) that are NOT in the training set.
 testset = trainset.build_anti_testset()
 predictions = algo.test(testset)
 logger.info("> Predictions OK")
@@ -94,24 +94,30 @@ logger.info("Top N retrieved > OK")
 
 
 def retrain():
-    # 3. Load the dataset
+    file = os.path.join(cwd, 'src', 'rec_sys', 'rec_methods', 'data', 'custom_dataset.data')
+
+    # 1. Load the dataset
     data = Dataset.load_from_file(file, reader=reader)
     logger.info("> dataset OK")
 
-    # Creating train dataset...
+    # 2. Creating train dataset...
     trainset = data.build_full_trainset()
     logger.info("> train dataset OK")
 
-    # Training...
+    # 3. Training...
     algo = SVD()
     algo.fit(trainset)
     logger.info("> Training OK")
 
-    # Predict ratings for all pairs (u, i) that are NOT in the training set.
+    # 4. Predict ratings for all pairs (u, i) that are NOT in the training set.
     testset = trainset.build_anti_testset()
     predictions = algo.test(testset)
     logger.info("> Predictions OK")
 
+    top_n = get_top_n(predictions, n=2)
+    logger.info("Top N retrieved > OK")
+
+    return top_n
 
 # Method to get the test descriptors uuids from the package metadata
 def get_testds_uuids(package_uuid):
@@ -251,7 +257,7 @@ def del_user(user):
 # Print the recommended items for each user
 def get_recommendations(user_id):
     my_json_string = {}
-    for uid, user_ratings in top_n.items():
+    for uid, user_ratings in retrain().items():
         if uid == user_id:
             json_data = ([iid for (iid, _) in user_ratings])
             my_json_string = json.dumps({'user': uid, 'rec_tests': json_data})
