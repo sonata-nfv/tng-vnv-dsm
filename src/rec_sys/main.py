@@ -79,7 +79,7 @@ class DsmAddUserItem(Resource):
         logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call")
         try:
             user_name = methods.get_username(package_uuid)
-            if user_name is None:
+            if user_name == None:
                 user_name = "tango_user"
                 # test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
             test_tags = methods.get_testing_tags(package_uuid)
@@ -133,6 +133,7 @@ class DsmRec(Resource):
         else:
             error_response = {'Response': 'User Not Found'}
             return Response(json.dumps(error_response), status=404, mimetype='application/json')
+
 
 # Api method to delete a user and all his/her associated items
 @api.route('/users/delete/<user>', methods=['DELETE'])
