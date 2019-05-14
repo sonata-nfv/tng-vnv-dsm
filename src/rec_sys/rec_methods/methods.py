@@ -73,6 +73,45 @@ testset = trainset.build_anti_testset()
 predictions = algo.test(testset)
 logger.info("> Predictions OK")
 
+# Method for retrieve the top n recommendations
+def get_top_n(predictions, n=10):
+    # First map the predictions to each user.
+    top_n = defaultdict(list)
+    for uid, iid, true_r, est, _ in predictions:
+        top_n[uid].append((iid, est))
+
+    # Then sort the predictions for each user and retrieve the k highest ones.
+    for uid, user_ratings in top_n.items():
+        user_ratings.sort(key=lambda x: x[1], reverse=True)
+        top_n[uid] = user_ratings[:n]
+
+    return top_n
+
+
+# Get top n predictions, default=2
+top_n = get_top_n(predictions, n=2)
+logger.info("Top N retrieved > OK")
+
+
+def reTrain():
+    # 3. Load the dataset
+    data = Dataset.load_from_file(file, reader=reader)
+    logger.info("> dataset OK")
+
+    # Creating train dataset...
+    trainset = data.build_full_trainset()
+    logger.info("> train dataset OK")
+
+    # Training...
+    algo = SVD()
+    algo.fit(trainset)
+    logger.info("> Training OK")
+
+    # Predict ratings for all pairs (u, i) that are NOT in the training set.
+    testset = trainset.build_anti_testset()
+    predictions = algo.test(testset)
+    logger.info("> Predictions OK")
+
 
 # Method to get the test descriptors uuids from the package metadata
 def get_testds_uuids(package_uuid):
@@ -209,24 +248,9 @@ def del_user(user):
         return error
 
 
-# Method for retrieve the top n recommendations
-def get_top_n(predictions, n=10):
-    # First map the predictions to each user.
-    top_n = defaultdict(list)
-    for uid, iid, true_r, est, _ in predictions:
-        top_n[uid].append((iid, est))
-
-    # Then sort the predictions for each user and retrieve the k highest ones.
-    for uid, user_ratings in top_n.items():
-        user_ratings.sort(key=lambda x: x[1], reverse=True)
-        top_n[uid] = user_ratings[:n]
-
-    return top_n
 
 
-# Get top n predictions, default=2
-top_n = get_top_n(predictions, n=2)
-logger.info("Top N retrieved > OK")
+
 
 
 # Print the recommended items for each user
