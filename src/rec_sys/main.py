@@ -60,7 +60,7 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 class dsm_health(Resource):
 
     def get(self):
-        response= {'Status':'Alive!'}  
+        response= {'Status':'Alive'}
         return Response(json.dumps(response),  mimetype='application/json')
 
 								  
@@ -79,6 +79,13 @@ class dsm_rec(Resource):
             error_response = {'Response':'User Not Found'}  
             return Response(json.dumps(error_response), status=404,  mimetype='application/json')
 
+# Api method to add a new pair based on what the user has selected
+@api.route('/users/<user>/<item>', methods = ['POST'])
+class dsm_user_item(Resource):
+
+    def post(self, user=None, item=None):
+        logger.info("/tng-vnv-dsm/api/v1/users/<user>/<item> Call")
+        return 'Hello ' + user + ', item selected:' + item
 
 # Api Method for retrieve the tests tags the systems is trained for
 @api.route('/test_items', methods =['GET'])
