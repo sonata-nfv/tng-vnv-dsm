@@ -128,7 +128,6 @@ class DsmRec(Resource):
 
     def get(self, user=None):
         logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
-        response = methods.get_recommendations(user)
         return Response(methods.get_recommendations(user), mimetype='application/json')
 
 

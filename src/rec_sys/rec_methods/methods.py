@@ -248,12 +248,6 @@ def del_user(user):
         error = str(e)
         return error
 
-
-
-
-
-
-
 # Print the recommended items for each user
 def get_recommendations(user_id):
     my_json_string = {}
