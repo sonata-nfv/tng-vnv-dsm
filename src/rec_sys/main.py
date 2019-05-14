@@ -62,22 +62,6 @@ class dsm_health(Resource):
         response = {'Status': 'Alive'}
         return Response(json.dumps(response), mimetype='application/json')
 
-
-# Api Method for retrieve the user's recommendation
-@api.route('/users/<user>', methods=['GET'])
-class dsm_rec(Resource):
-
-    def get(self, user=None):
-        logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
-        response = methods.get_recommendations(user)
-        response_length = len(response)
-        if response_length > 2:
-            return Response(methods.get_recommendations(user), mimetype='application/json')
-        else:
-            error_response = {'Response': 'User Not Found'}
-            return Response(json.dumps(error_response), status=404, mimetype='application/json')
-
-
 # Api method to add a new pair based on what the user has selected
 @api.route('/users/<user>/<item>', methods=['POST'])
 class dsm_user_item(Resource):
@@ -85,7 +69,6 @@ class dsm_user_item(Resource):
     def post(self, user=None, item=None):
         logger.info("/tng-vnv-dsm/api/v1/users/<user>/<item> Call")
         return 'Hello ' + user + ', item selected:' + item
-
 
 # Api Method for retrieve the tests tags the systems is trained for
 @api.route('/test_items', methods=['GET'])
@@ -99,7 +82,6 @@ class dsm_testItems(Resource):
         else:
             response = {'Response': 'No test items currently available - Dataset Empty'}
             return Response(json.dumps(response), status=404, mimetype='application/json')
-
 
 # Api Method for retrieve the users the systems is trained for
 @api.route('/users', methods=['GET'])
@@ -115,7 +97,6 @@ class dsm_getUsers(Resource):
             return Response(json.dumps(response), status=404, mimetype='application/json')
 
         # Api Method to add user-item pairs from a test descriptor
-
 
 @api.route('/users/items/<package_uuid>', methods=['POST'])
 class dsm_add_user_item(Resource):
@@ -137,7 +118,6 @@ class dsm_add_user_item(Resource):
             logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call", extra={'props': {"Error": e}})
             return Response(json.dumps(error_response), status=500, mimetype='application/json')
 
-
 # Api method to delete a user and all hi'/her assosiated items
 @api.route('/users/<user>', methods=['DELETE'])
 class dsm_delete_user(Resource):
@@ -146,6 +126,19 @@ class dsm_delete_user(Resource):
         logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
         return Response(json.dumps(methods.del_user(user)), mimetype='application/json')
 
+# Api Method for retrieve the user's recommendation
+@api.route('/users/<user>', methods=['GET'])
+class dsm_rec(Resource):
+
+    def get(self, user=None):
+        logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
+        response = methods.get_recommendations(user)
+        response_length = len(response)
+        if response_length > 2:
+            return Response(methods.get_recommendations(user), mimetype='application/json')
+        else:
+            error_response = {'Response': 'User Not Found'}
+            return Response(json.dumps(error_response), status=404, mimetype='application/json')
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=4010, debug=True)
