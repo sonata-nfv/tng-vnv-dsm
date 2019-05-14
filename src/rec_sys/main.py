@@ -56,7 +56,7 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
 # Api Method for retrieve the component's health
 @api.route('/health', methods=['GET'])
-class dsm_health(Resource):
+class DsmHealth(Resource):
 
     def get(self):
         response = {'Status': 'Alive'}
@@ -64,7 +64,7 @@ class dsm_health(Resource):
 
 # Api method to add a new pair based on what the user has selected
 @api.route('/users/<user>/<item>', methods=['POST'])
-class dsm_user_item(Resource):
+class DsmUserItem(Resource):
 
     def post(self, user=None, item=None):
         logger.info("/tng-vnv-dsm/api/v1/users/<user>/<item> Call")
@@ -72,7 +72,7 @@ class dsm_user_item(Resource):
 
 # Api Method for retrieve the tests tags the systems is trained for
 @api.route('/test_items', methods=['GET'])
-class dsm_testItems(Resource):
+class DsmTestItems(Resource):
 
     def get(self):
         logger.info("/tng-vnv-dsm/api/v1/test_items Call")
@@ -85,7 +85,7 @@ class dsm_testItems(Resource):
 
 # Api Method for retrieve the users the systems is trained for
 @api.route('/users', methods=['GET'])
-class dsm_getUsers(Resource):
+class DsmGetUsers(Resource):
 
     def get(self):
         logger.info("/tng-vnv-dsm/api/v1/users Call")
@@ -96,16 +96,15 @@ class dsm_getUsers(Resource):
             response = {'Response': 'No Users currently available - Dataset Empty'}
             return Response(json.dumps(response), status=404, mimetype='application/json')
 
-        # Api Method to add user-item pairs from a test descriptor
-
+# Api Method to add user-item pairs from a test descriptor
 @api.route('/users/items/<package_uuid>', methods=['POST'])
-class dsm_add_user_item(Resource):
+class DsmAddUserItem(Resource):
 
     def post(self, package_uuid=None):
         logger.info("/tng-vnv-dsm/api/v1/users/items/<package_uuid> Call")
         try:
             user_name = methods.get_username(package_uuid)
-            if (user_name == None):
+            if user_name is None:
                 user_name = "tango_user"
                 # test_descriptors_uuids = methods.get_testds_uuids(package_uuid)
             test_tags = methods.get_testing_tags(package_uuid)
@@ -120,7 +119,7 @@ class dsm_add_user_item(Resource):
 
 # Api method to delete a user and all hi'/her assosiated items
 @api.route('/users/<user>', methods=['DELETE'])
-class dsm_delete_user(Resource):
+class DsmDeleteUser(Resource):
 
     def delete(self, user=None):
         logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
@@ -128,7 +127,7 @@ class dsm_delete_user(Resource):
 
 # Api Method for retrieve the user's recommendation
 @api.route('/users/<user>', methods=['GET'])
-class dsm_rec(Resource):
+class DsmRec(Resource):
 
     def get(self, user=None):
         logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
@@ -139,6 +138,7 @@ class dsm_rec(Resource):
         else:
             error_response = {'Response': 'User Not Found'}
             return Response(json.dumps(error_response), status=404, mimetype='application/json')
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=4010, debug=True)
