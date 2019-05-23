@@ -63,7 +63,7 @@ class DsmHealth(Resource):
         return Response(json.dumps(response), mimetype='application/json')
 
 # Api method to add a new pair based on what the user has selected
-@api.route('/users/<user>/<item>', methods=['POST'])
+@api.route('/pair/<user>/<item>', methods=['POST'])
 class DsmUserItem(Resource):
 
     def post(self, user=None, item=None):
@@ -74,7 +74,7 @@ class DsmUserItem(Resource):
 
 
 # Api Method to add user-item pairs from a test descriptor
-@api.route('/users/items/<package_uuid>', methods=['POST'])
+@api.route('/pair/<package_uuid>', methods=['POST'])
 class DsmAddUserItem(Resource):
 
     def post(self, package_uuid=None):
@@ -138,7 +138,7 @@ class DsmRec(Resource):
 
 
 # Api method to delete a user and all his/her associated items
-@api.route('/users/delete/<user>', methods=['DELETE'])
+@api.route('/users/<user>', methods=['DELETE'])
 class DsmDeleteUser(Resource):
 
     def delete(self, user=None):
