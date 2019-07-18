@@ -55,7 +55,7 @@ RUN set -ex \
         libexpat1 \
     ' \
     && apt-get update && apt-get install -y $buildDeps $deps --no-install-recommends  && rm -rf /var/lib/apt/lists/* \
-    && pip --no-cache install Werkzeug==0.14.1 numpy cython flask json-logging requests flask_restplus\
+    && pip --no-cache install Werkzeug==0.15.0 numpy cython flask json-logging requests flask_restplus\
 	&& pip --no-cache install surprise && pip uninstall -y scipy \
     && apt-get purge -y --auto-remove $buildDeps \
     && find /usr/local -depth \
