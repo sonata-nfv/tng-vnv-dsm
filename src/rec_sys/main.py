@@ -31,7 +31,7 @@
 # partner consortium (www.5gtango.eu).
 
 import json
-from flask import Flask, Response, Blueprint
+from flask import Flask, Response, Blueprint,request
 from flask_restplus import Api, Resource
 from rec_methods import methods
 import json_logging, logging, sys
@@ -128,7 +128,8 @@ class DsmRec(Resource):
 
     def get(self, user=None):
         logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
-        recommendations = str(methods.get_recommendations(user))
+        n = request.args.get('n', default=2, type=int)
+        recommendations = str(methods.get_recommendations(user,n))
         print("RECOMMENDATIONS:" + recommendations)
         if "user" in recommendations:
             return Response(recommendations, mimetype='application/json')

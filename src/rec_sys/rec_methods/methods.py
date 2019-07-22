@@ -255,10 +255,14 @@ def del_user(user):
         return error
 
 # Print the recommended items for each user
-def get_recommendations(user_id):
+def get_recommendations(user_id,num):
     my_json_string = {}
     for uid, user_ratings in retrain().items():
         if uid == user_id:
             json_data = ([iid for (iid, _) in user_ratings])
             my_json_string = json.dumps({'user': uid, 'rec_tests': json_data})
-    return my_json_string
+    d = json.loads(my_json_string)
+    recs = d['rec_tests'][:num]
+    del d['rec_tests']
+    d['rec_tests'] = recs
+    return d
