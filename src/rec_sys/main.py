@@ -130,7 +130,6 @@ class DsmRec(Resource):
         logger.info("/tng-vnv-dsm/api/v1/users/<user> Call")
         n = request.args.get('n', default=2, type=int)
         recommendations = str(methods.get_recommendations(user,n))
-        print("RECOMMENDATIONS:" + recommendations)
         if "user" in recommendations:
             return Response(recommendations, mimetype='application/json')
         else:

@@ -74,7 +74,7 @@ predictions = algo.test(testset)
 logger.info("> Predictions OK")
 
 # Method for retrieve the top n recommendations
-def get_top_n(predictions, n=10):
+def get_top_n(predictions, n=5):
     # First map the predictions to each user.
     top_n = defaultdict(list)
     for uid, iid, true_r, est, _ in predictions:
@@ -89,7 +89,7 @@ def get_top_n(predictions, n=10):
 
 
 # Get top n predictions, default=2
-top_n = get_top_n(predictions, n=2)
+top_n = get_top_n(predictions, n=5)
 logger.info("Top N retrieved > OK")
 
 
@@ -114,7 +114,7 @@ def retrain():
     predictions = algo.test(testset)
     logger.info("> Predictions OK")
 
-    top_n = get_top_n(predictions, n=2)
+    top_n = get_top_n(predictions, n=5)
     logger.info("Top N retrieved > OK")
 
     return top_n
