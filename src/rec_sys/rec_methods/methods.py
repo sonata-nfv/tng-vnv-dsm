@@ -74,7 +74,7 @@ predictions = algo.test(testset)
 logger.info("> Predictions OK")
 
 # Method for retrieve the top n recommendations
-def get_top_n(predictions, n=10):
+def get_top_n(predictions, n=5):
     # First map the predictions to each user.
     top_n = defaultdict(list)
     for uid, iid, true_r, est, _ in predictions:
@@ -89,7 +89,7 @@ def get_top_n(predictions, n=10):
 
 
 # Get top n predictions, default=2
-top_n = get_top_n(predictions, n=2)
+top_n = get_top_n(predictions, n=5)
 logger.info("Top N retrieved > OK")
 
 
@@ -114,7 +114,7 @@ def retrain():
     predictions = algo.test(testset)
     logger.info("> Predictions OK")
 
-    top_n = get_top_n(predictions, n=2)
+    top_n = get_top_n(predictions, n=5)
     logger.info("Top N retrieved > OK")
 
     return top_n
@@ -255,10 +255,14 @@ def del_user(user):
         return error
 
 # Print the recommended items for each user
-def get_recommendations(user_id):
+def get_recommendations(user_id,num):
     my_json_string = {}
     for uid, user_ratings in retrain().items():
         if uid == user_id:
             json_data = ([iid for (iid, _) in user_ratings])
             my_json_string = json.dumps({'user': uid, 'rec_tests': json_data})
-    return my_json_string
+    d = json.loads(my_json_string)
+    recs = d['rec_tests'][:num]
+    del d['rec_tests']
+    d['rec_tests'] = recs
+    return d
