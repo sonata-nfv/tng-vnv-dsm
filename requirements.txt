@@ -1,4 +1,4 @@
-Werkzeug==0.15.3
+Werkzeug==2.2.3
 numpy
 cython
 flask
